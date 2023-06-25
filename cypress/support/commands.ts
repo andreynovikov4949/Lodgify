@@ -1,29 +1,18 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+import { TodoistApi } from "@doist/todoist-api-typescript";
 
-Cypress.Commands.add('createProjectViaAPI', () => {
-    
+const todoistApi = new TodoistApi("f9322ff1c0f019421a5bff397e77508313a4451b");
+
+Cypress.Commands.add('createProjectViaAPI', (projectName) => {
+    todoistApi.addProject({ name: projectName })
 })
+
+Cypress.Commands.add('loginViaUI', (email, password) => {
+    cy.visit('/app/today');
+    cy.get('a[href="/auth/login"]').contains('Log in').click();
+    cy.get('input#element-0').type(email);
+    cy.get('input#element-3').type(password);
+    cy.get('button[data-gtm-id="start-email-login"]').click();
+    cy.location('pathname', { timeout: 100000 }).should('contain', 'app/today/');
+})
+
+
