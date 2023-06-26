@@ -32,10 +32,6 @@ Cypress.Commands.add('loginViaAPI', () => {
     cy.location('pathname', { timeout: 100000 }).should('contain', '/app/today');
 })
 
-Cypress.Commands.add('verifySiteIsViisble', () => {
-    cy.get('#top_bar_inner').should('be.visible');
-})
-
 Cypress.Commands.add('waitForSync', () => {
     cy.intercept('https://todoist.com/API/v9.0/sync').as('syncRequest');
     cy.wait('@syncRequest');
@@ -54,6 +50,5 @@ Cypress.Commands.add('waitForLoaderToDissappear', () => {
         .then(() => {
             log.end();
         });
-
 })
 

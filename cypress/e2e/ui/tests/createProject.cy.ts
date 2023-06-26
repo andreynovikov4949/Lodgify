@@ -1,4 +1,4 @@
-import homepage from "../pages/homepage"
+import homepage from "../pages/globalElements"
 import { TodoistApi } from "@doist/todoist-api-typescript";
 
 const todoistApi = new TodoistApi("f9322ff1c0f019421a5bff397e77508313a4451b");
