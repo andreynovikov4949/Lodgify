@@ -9,5 +9,7 @@ declare namespace Cypress {
     waitForLoaderToDissappear(): Chainable<Chainable>;
 
     waitForSync(): Chainable<void>;
+
+    deleteAllProjects(): Chainable<void>;
   }
 }

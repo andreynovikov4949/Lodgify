@@ -1,4 +1,5 @@
 import { TodoistApi } from "@doist/todoist-api-typescript";
+import { forEach } from "cypress/types/lodash";
 
 const todoistApi = new TodoistApi("f9322ff1c0f019421a5bff397e77508313a4451b");
 
@@ -50,5 +51,26 @@ Cypress.Commands.add('waitForLoaderToDissappear', () => {
         .then(() => {
             log.end();
         });
+})
+
+Cypress.Commands.add('deleteAllProjects', () => {
+    cy.wrap(todoistApi.getProjects()).its('length').as('numberOfProjects');
+    cy.get('@numberOfProjects').then(($number ) => {
+        for(let i = 0; i < ($number as unknown as number); i++) {
+            cy.wrap(todoistApi.getProjects()).its(`[${i}].id`).as('projectToDeleteId');
+                cy.get('@projectToDeleteId').then(($projectToDeleteId ) => {
+                    todoistApi.deleteProject($projectToDeleteId as unknown as string);
+
+            })
+        }
+    })
+
+
+    // cy.wrap(todoistApi.getTasks()).its('[0].id').as('projectIds');
+    // cy.get('@projectIds').then(($projectIds ) => {
+    //     ($projectIds as unknown as Array<string>).forEach((id) => {
+    //         todoistApi.deleteProject(id);
+    //     })
+    // })
 })
 
