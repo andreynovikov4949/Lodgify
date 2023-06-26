@@ -4,6 +4,14 @@ declare namespace Cypress {
 
     loginViaUI(email: string, password: string): Chainable<void>;
 
-    loginViaAPI(): Chainable<void>;
+    loginViaAPI(): Chainable<Chainable>;
+
+    deleteProjectViaAPI(projectId: string): Chainable<Chainable>;
+
+    verifySiteIsViisble(): Chainable<Chainable>;
+
+    waitForLoaderToDissappear(): Chainable<Chainable>;
+
+    waitForSync(): Chainable<void>;
   }
 }
