@@ -1,7 +1,6 @@
 import { TodoistApi } from "@doist/todoist-api-typescript";
-import { forEach } from "cypress/types/lodash";
 
-const todoistApi = new TodoistApi("f9322ff1c0f019421a5bff397e77508313a4451b");
+const todoistApi = new TodoistApi(Cypress.env('users').userForTest.api_token);
 
 Cypress.Commands.add('createProjectViaAPI', (projectName) => {
     cy.wrap(todoistApi.addProject({ name: projectName }))
@@ -21,12 +20,12 @@ Cypress.Commands.add('loginViaAPI', () => {
         method: 'POST',
         url: 'https://todoist.com/API/v9.0/user/login',
         body: {
-            "email": "novikov.av.4949+testuser1@gmail.com",
-            "password": "Test1234",
+            "email": Cypress.env('users').userForTest.email,
+            "password": Cypress.env('users').userForTest.password,
             "pkce_oauth": null,
             "web_session": true,
             "permanent_login": true,
-            "device_id": "1b27f528-a183-b99a-bd69-1fff5080482a"
+            "device_id": Cypress.env('users').userForTest.device_id
         }
     })
     cy.visit('');
@@ -64,13 +63,5 @@ Cypress.Commands.add('deleteAllProjects', () => {
             })
         }
     })
-
-
-    // cy.wrap(todoistApi.getTasks()).its('[0].id').as('projectIds');
-    // cy.get('@projectIds').then(($projectIds ) => {
-    //     ($projectIds as unknown as Array<string>).forEach((id) => {
-    //         todoistApi.deleteProject(id);
-    //     })
-    // })
 })
 

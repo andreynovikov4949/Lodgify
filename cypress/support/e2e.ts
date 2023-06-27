@@ -18,3 +18,12 @@ import './commands'
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
+
+// This opens an empty page before each test to prevent requests from previous test
+// from impacting the current test
+beforeEach(() => {
+    cy.window({ log: false }).then((win) => {
+        const window = win;
+        window.location.href = 'about:blank';
+    });
+});
