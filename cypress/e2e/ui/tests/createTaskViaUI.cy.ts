@@ -30,17 +30,18 @@ describe('Validate “Create Create Task via web application" functionality', ()
       const taskName = 'Task with description';
       const taskDescription = 'Test Description';
       cy.createProjectViaAPI(projectName);
-      loginViaAPI()
+      const taskForm = loginViaAPI()
         .waitForLoaderToDisappear()
         .clickOnProject(projectName)
         .clickNewTaskButton()
         .typeTaskName(taskName)
-        .typeTaskDescription(taskDescription)
-        .clickAddTask();
+        .typeTaskDescription(taskDescription);
+      taskModal.taskDescriptionField.contains(taskDescription);
+      taskForm.clickAddTask();
       cy.get('@taskId').then(($id) => {
         // cypress is unable to catch todosit api properly so
         // you need to wrap every api request to prevent failing
-        cy.wrap(todoistApi.getTask($id as unknown as string))
+        cy.wrap(todoistApi.getTask($id as unknown as string), { timeout: 10000 })
           .its('description')
           .as('taskDescription');
         cy.get('@taskDescription').then(($taskDescription) => {

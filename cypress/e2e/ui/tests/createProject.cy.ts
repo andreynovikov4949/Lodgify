@@ -2,12 +2,14 @@ import { TodoistApi } from "@doist/todoist-api-typescript";
 import { globalElements } from "../pages/globalElements";
 import { loginViaAPI } from "../pages/globalElements";
 
-const todoistApi = new TodoistApi("f9322ff1c0f019421a5bff397e77508313a4451b");
+const todoistApi = new TodoistApi(Cypress.env('users').userForTest.api_token);
 
 describe('Validate “Create Project” functionality', () => {
-  it.only('User is able to see the project created via API', () => {
-    const projectName = 'Test API project 1';
+  beforeEach(() => {
     cy.deleteAllProjects();
+  });
+  it('User is able to see the project created via API', () => {
+    const projectName = 'Test API project 1';
     cy.createProjectViaAPI(projectName);
     loginViaAPI()
       .waitForLoaderToDisappear();
@@ -18,7 +20,8 @@ describe('Validate “Create Project” functionality', () => {
   })
 
   // not finished
-  it('User is unable to create project that extends the limit', () => {
+  // bug found: User is able to create 7/5 project. User gets 403 error when he tries to create 8th project 
+  it.only('User is unable to create project that extends the limit', () => {
     const projectName = 'Test API project'
     for(let i = 1; i < 6; i++) {
       const projectName = 'Test API project ' + i;

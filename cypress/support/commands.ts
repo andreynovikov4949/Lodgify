@@ -53,15 +53,39 @@ Cypress.Commands.add('waitForLoaderToDisappear', () => {
 })
 
 Cypress.Commands.add('deleteAllProjects', () => {
-    cy.wrap(todoistApi.getProjects()).its('length').as('numberOfProjects');
-    cy.get('@numberOfProjects').then(($number ) => {
-        for(let i = 0; i < ($number as unknown as number); i++) {
-            cy.wrap(todoistApi.getProjects()).its(`[${i}].id`).as('projectToDeleteId');
-                cy.get('@projectToDeleteId').then(($projectToDeleteId ) => {
-                    todoistApi.deleteProject($projectToDeleteId as unknown as string);
+    // cy.wrap(todoistApi.getProjects()).its('length').as('numberOfProjects');
+    // cy.get('@numberOfProjects').then(($number ) => {
+    //     const numberOfProjects = $number as unknown as number
+    //     for(let i = 0; i < numberOfProjects; i++) {
+    //         cy.wrap(todoistApi.getProjects()).its(`[${i}].id`).as('projectToDeleteId');
+    //             cy.get('@projectToDeleteId').then(($projectToDeleteId ) => {
+    //                 const projectToDeleteId = $projectToDeleteId as unknown as string;
+    //                 todoistApi.deleteProject(projectToDeleteId);
 
-            })
-        }
-    })
+    //         })
+    //     }
+    // })
+    cy.wrap(todoistApi.getProjects()).then((projects) => {
+        const projectIds = (projects as any[]).map((project) => project.id);
+    
+        // Recursive function to delete projects sequentially
+        const deleteProjectsSequentially = (index) => {
+          if (index >= projectIds.length) {
+            // All projects have been deleted, exit the function
+            return;
+          }
+    
+          const projectId = projectIds[index];
+          todoistApi.deleteProject(projectId);
+    
+          // Delete the next project after a small delay
+          cy.wait(1000).then(() => {
+            deleteProjectsSequentially(index + 1);
+          });
+        };
+    
+        // Start deleting projects from the beginning
+        deleteProjectsSequentially(0);
+      });
 })
 
