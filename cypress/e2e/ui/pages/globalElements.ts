@@ -16,7 +16,7 @@ export class GlobalElements {
         return new TaskModal;
     }
 
-    public waitForLoaderToDissappear = (): GlobalElements => {
+    public waitForLoaderToDisappear = (): GlobalElements => {
         const selector = 'div.loading_screen--loader';
         const log = Cypress.log({
             name: 'waitForLoader',

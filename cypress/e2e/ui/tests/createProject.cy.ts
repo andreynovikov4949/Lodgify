@@ -10,7 +10,7 @@ describe('Validate “Create Project” functionality', () => {
     cy.deleteAllProjects();
     cy.createProjectViaAPI(projectName);
     loginViaAPI()
-      .waitForLoaderToDissappear();
+      .waitForLoaderToDisappear();
     cy.waitForSync();
     globalElements.projectsPanel.contains(projectName);
     // delete the new Project
@@ -27,8 +27,8 @@ describe('Validate “Create Project” functionality', () => {
     todoistApi.addProject({ name: projectName })
       .then((response) => {})
     cy.loginViaAPI();
-    // wait for loader to dissappear
-    cy.waitForLoaderToDissappear();
+    // wait for loader to disappear
+    cy.waitForLoaderToDisappear();
     // wait for sync so the project appears on the homepage
     cy.waitForSync();
     // TEST FAILS - USER IS ABLE TO CREATE A PROJECT OVER THE LIMIT

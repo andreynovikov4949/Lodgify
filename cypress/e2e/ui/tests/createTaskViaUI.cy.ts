@@ -14,7 +14,7 @@ describe('Validate “Create Create Task via web application" functionality', ()
       const taskName = 'Only name task';
       cy.createProjectViaAPI(projectName);
       loginViaAPI()
-        .waitForLoaderToDissappear()
+        .waitForLoaderToDisappear()
         .clickOnProject(projectName)
         .clickNewTaskButton()
         .typeTaskName(taskName)
@@ -31,7 +31,7 @@ describe('Validate “Create Create Task via web application" functionality', ()
       const taskDescription = 'Test Description';
       cy.createProjectViaAPI(projectName);
       loginViaAPI()
-        .waitForLoaderToDissappear()
+        .waitForLoaderToDisappear()
         .clickOnProject(projectName)
         .clickNewTaskButton()
         .typeTaskName(taskName)
@@ -61,7 +61,7 @@ describe('Validate “Create Create Task via web application" functionality', ()
       }
       cy.createProjectViaAPI(projectName);
       loginViaAPI()
-        .waitForLoaderToDissappear()
+        .waitForLoaderToDisappear()
         .clickOnProject(projectName)
         .clickNewTaskButton()
         .typeTaskName(taskName)
@@ -86,7 +86,7 @@ describe('Validate “Create Create Task via web application" functionality', ()
       const taskName = ' ';
       cy.createProjectViaAPI(projectName);
       loginViaAPI()
-        .waitForLoaderToDissappear()
+        .waitForLoaderToDisappear()
         .clickOnProject(projectName)
         .clickNewTaskButton()
         .typeTaskName(taskName)

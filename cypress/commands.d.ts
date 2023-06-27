@@ -6,7 +6,7 @@ declare namespace Cypress {
 
     deleteProjectViaAPI(projectId: string): Chainable<Chainable>;
 
-    waitForLoaderToDissappear(): Chainable<Chainable>;
+    waitForLoaderToDisappear(): Chainable<Chainable>;
 
     waitForSync(): Chainable<void>;
 

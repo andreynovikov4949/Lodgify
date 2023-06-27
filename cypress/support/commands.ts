@@ -37,7 +37,7 @@ Cypress.Commands.add('waitForSync', () => {
     cy.wait('@syncRequest');
 })
 
-Cypress.Commands.add('waitForLoaderToDissappear', () => {
+Cypress.Commands.add('waitForLoaderToDisappear', () => {
     const selector = 'div.loading_screen--loader';
     const log = Cypress.log({
         name: 'waitForLoader',
