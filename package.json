@@ -5,9 +5,20 @@
     "@typescript-eslint/parser": "^5.60.1",
     "cypress": "^12.15.0",
     "eslint": "^8.43.0",
+    "mochawesome": "^7.1.3",
+    "mochawesome-merge": "^4.3.0",
+    "mochawesome-report-generator": "^6.2.0",
+    "rimraf": "^5.0.1",
     "typescript": "^5.1.3"
   },
   "dependencies": {
     "@doist/todoist-api-typescript": "^2.1.2"
+  },
+
+  "scripts": {
+    "test:report": "npx cypress run --browser chrome && npx mochawesome-merge 'cypress/results/*.json' > mochawesome.json && npx marge mochawesome.json",
+    "clear:results": "rimraf cypress/results/* && rm mochawesome.json",
+    "mergeAndGenerate": "npx mochawesome-merge 'cypress/results/*.json' > mochawesome.json && npx marge mochawesome.json",
+    "clearAndRunTests": "rimraf cypress/results/* && rm mochawesome.json && npx cypress run --browser chrome"
   }
 }

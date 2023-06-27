@@ -7,4 +7,11 @@ export default defineConfig({
     },
     baseUrl: 'https://en.todoist.com',
   },
+  reporter: 'mochawesome',
+  reporterOptions: {
+    reportDir: 'cypress/results',
+    overwrite: false,
+    html: false,
+    json: true,
+  },
 });

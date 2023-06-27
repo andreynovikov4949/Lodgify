@@ -3,7 +3,7 @@ import { TodoistApi } from "@doist/todoist-api-typescript";
 const todoistApi = new TodoistApi(Cypress.env('users').userForTest.api_token);
 
 Cypress.Commands.add('createProjectViaAPI', (projectName) => {
-    cy.wrap(todoistApi.addProject({ name: projectName }))
+    cy.wrap(todoistApi.addProject({ name: projectName }), { timeout: 10000 })
         .its('id')
         .as('projectId');
 })
