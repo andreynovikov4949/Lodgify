@@ -14,5 +14,6 @@ export default defineConfig({
     html: false,
     json: true,
   },
-  defaultCommandTimeout: 10000
+  defaultCommandTimeout: 10000,
+  requestTimeout: 10000
 });

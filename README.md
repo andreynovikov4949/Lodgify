@@ -9,6 +9,11 @@ The following Scenarios were covered in this suite:
 
 The positive test cases were covered. Also some negative and boundary conditions cases were covered
 
+### Note
+In challenge description was said that in 2nd scenario should be user project from 1st one
+This is not a best practice decision so the new Project/Task is created at the beginning of every test, so every test can be run regardlessly
+Before the start of every test all the entities that can affect the test are deleted
+
 ## Prerequisites
 Before running the tests, ensure that you have the following software installed:
 - Download and install code editor eg Visual Studio Code
@@ -35,6 +40,18 @@ The configuration options for the tests can be found in the cypress.config.json 
 ## Running tests manually
 To run the test via UI and see the ongoing script run this command and then choose .spec you want to run
 `npm run cypress:open` 
+
+## Some test should fail
+Some tests are failed because the problems were found:
+*User is unable to create a task with a name that extends max length name*
+*User is unable to create project with a name that exceeds the maximum character limit*
+*User is unable to create project that extends the limit*
+
+Some tests are failing due to ToDoist error
+*User is able to create task with max name*
+
+If the test fails immediately on `wrap` command or on `wait` command in the middle of the test - please rerun the suite
+
 
 ### Note 
 Test by commands `npm run clear:run` and `npm run cypress:open` are run in a timezone Asia/Tbilisi due to account settings
