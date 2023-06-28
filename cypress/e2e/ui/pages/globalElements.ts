@@ -1,19 +1,42 @@
-import { TaskModal } from "./taskPage";
+import { TaskModal } from "./taskModal";
 
-interface Elements {
-    projectsPanel: Cypress.Chainable;
-    createNewTaskButton: Cypress.Chainable;
-}
-
+// global functions like actions with items in the left menu
+// and in the main part can be found here
 export class GlobalElements {
+    get projectsPanel(): Cypress.Chainable {
+        return cy.get('#left-menu-projects-panel');
+    }
+
+    get createNewTaskButton(): Cypress.Chainable {
+        return cy.get('button.plus_add_button');
+    }
+
+    get inboxSectionButton(): Cypress.Chainable {
+        return cy.contains('Inbox');
+    }
+
+    get inboxCounter(): Cypress.Chainable {
+        return cy.get('div[data-sidebar-list-item="true"]')
+            .first()
+            .find('span[aria-hidden="true"]');
+    }
+
+    get listOfTasks(): Cypress.Chainable {
+        return cy.get('ul.items');
+    }
+
+    getTaskInListById = (id: number): Cypress.Chainable => {
+        return cy.get(`#task-${id}`);
+    }
+
     public clickOnProject = (projectName: string): GlobalElements => {
-        globalElements.projectsPanel.contains(projectName).click();
+        this.projectsPanel.contains(projectName).click();
         return this;
     }
 
     public clickNewTaskButton = (): TaskModal => {
-        globalElements.createNewTaskButton.click();
-        return new TaskModal;
+        this.createNewTaskButton.click();
+        return new TaskModal();
     }
 
     public waitForLoaderToDisappear = (): GlobalElements => {
@@ -29,6 +52,48 @@ export class GlobalElements {
             .then(() => {
                 log.end();
             });
+        return this;
+    }
+
+    public clickInbox = (): GlobalElements => {
+        this.inboxSectionButton.click({ force: true });
+        cy.get('header[data-testid="view_header"]').contains('Inbox')
+        return this;
+    }
+
+    public getValueFromInboxCounter = (): Cypress.Chainable => {
+        return this.inboxCounter
+            .invoke('text')
+            .then((text) => {
+                const counterValue = parseInt(text.trim(), 10);
+                // if there is no tasks NaN is converted to 0
+                const itemCount = isNaN(counterValue) ? 0 : counterValue;
+                return itemCount;
+              });
+    }
+
+    public getNumberOfTasksInList = (): Cypress.Chainable => {
+        // Add field button is another 'li'
+        // globalElements.listOfTasks.find('>li').eq(count+1);
+        return this.listOfTasks
+        .find('>li')
+        .then((elements) => {
+            const elementsCount = elements.length - 1;
+            return elementsCount;
+        });
+    }
+
+    public verifyPriorityOfTaskById = (id: number, priority: 1 | 2 | 3 | 4): GlobalElements => {
+        this.getTaskInListById(id)
+            .find(`button.task_checkbox.priority_${priority}`)
+            .should('exist');
+        return this;
+    }
+
+    public verifyDateOfTaskById = (id: number, text: string): GlobalElements => {
+        this.getTaskInListById(id)
+            .find('button.due_date_controls')
+            .should('contain', text);
         return this;
     }
 }
@@ -48,15 +113,5 @@ export const loginViaAPI = (): GlobalElements => {
     })
     cy.visit('app');
     cy.location('pathname', { timeout: 100000 }).should('contain', '/app/today');
-    return new GlobalElements;
-}
-
-export const globalElements: Elements = {
-    get projectsPanel(): Cypress.Chainable {
-        return cy.get('#left-menu-projects-panel');
-    },
-
-    get createNewTaskButton(): Cypress.Chainable {
-        return cy.get('button.plus_add_button');
-    },
-}
+    return new GlobalElements();
+};
