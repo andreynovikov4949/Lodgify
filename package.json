@@ -18,7 +18,8 @@
   "scripts": {
     "test:report": "npx cypress run --browser chrome && npx mochawesome-merge 'cypress/results/*.json' > mochawesome.json && npx marge mochawesome.json",
     "clear:results": "rimraf cypress/results/* && rm mochawesome.json",
-    "mergeAndGenerate": "npx mochawesome-merge 'cypress/results/*.json' > mochawesome.json && npx marge mochawesome.json",
-    "clearAndRunTests": "rimraf cypress/results/* && rm -f mochawesome.json && npx cypress run --browser chrome"
+    "merge:generate": "npx mochawesome-merge 'cypress/results/*.json' > mochawesome.json && npx marge mochawesome.json",
+    "clear:run": "rimraf cypress/results/* && rm -f mochawesome.json && TZ=Asia/Tbilisi npx cypress run --browser chrome",
+    "cypress:open": "TZ=Asia/Tbilisi cypress open"
   }
 }
